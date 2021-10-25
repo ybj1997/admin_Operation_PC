@@ -1,0 +1,20 @@
+.Left-nav {
+  color: #fff;
+}
+.Left-nav .Left-nav-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+.Left-nav .Left-nav-header img {
+  width: 60px;
+  height: 60px;
+  margin: 10px;
+  margin-left: 0;
+}
+.Left-nav .Left-nav-header h2 {
+  color: #fff;
+  font-size: 25px;
+  margin-bottom: 0;
+}

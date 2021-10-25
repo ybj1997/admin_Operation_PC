@@ -1,13 +1,39 @@
 import React, { Component } from 'react'
 import './login.less'
 import logo from './images/草帽海贼团.webp'
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button ,message} from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { reqLogin } from '../../api'
+import memory from '../../utils/memoryUtils'
+import storage from '../../utils/storageUtils'
+import { Redirect } from 'react-router-dom';
+
 
 
 export default class Login extends Component {
-    onFinish = (values) => {
-        console.log('登陆的用户和密码是：', values);
+    onFinish = async (values) => {
+        const { username, password } = values;
+
+        const result = await reqLogin(username, password)
+        /* 登陆成功 */
+        if(result.status === 0){
+            message.success('登陆成功',1)
+            memory.user = result.data;
+            storage.saveUser(memory.user);
+            this.props.history.replace('/admin') 
+        }
+        /* 登陆失败 */
+        else if(result.status === 1){
+            message.error('用户名或密码不正确',1)
+        }
+        //利用asnyc和await简化返回Promis的处理
+        // reqLogin(username, password)
+        //     .then(
+        //         response => console.log(response.data)
+        //     )
+        //     .catch(
+        //         error => console.log(error)
+        //     );
     };
 
     validator = (_, value) => {
@@ -18,6 +44,12 @@ export default class Login extends Component {
     }
 
     render() {
+        //检查用户是否登陆，如果有用户信息则自动跳转到登陆完成界面
+        const user = storage.getUser();
+        if(user._id){
+            return <Redirect to='/admin'/>
+        }
+
         return (
             <div className="login">
                 <header className="login-header">
