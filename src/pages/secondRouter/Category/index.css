@@ -1,0 +1,9 @@
+.card {
+  width: 100%;
+}
+.card .add-button {
+  border-radius: 5px;
+}
+.card .table {
+  text-align: center;
+}
